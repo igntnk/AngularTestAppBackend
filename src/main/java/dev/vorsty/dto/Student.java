@@ -1,48 +1,46 @@
 package dev.vorsty.dto;
 
+import jakarta.persistence.*;
+
 import java.sql.Struct;
 
+@Entity
+@Table(name="students")
 public class Student {
 
     public Student() {}
 
-    public Student(Long id, String fio, String group, String phonenumber){
-        this.id = id;
-        this.fio = fio;
-        this.group = group;
-        this.phonenumber = phonenumber;
+    public Student(String name, String surname){
+        this.name = name;
+        this.surname = surname;
     }
 
-    private String fio;
-    private String group;
-    private String phonenumber;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    private String name;
 
-    public String getId(){
+    private String surname;
+
+    public Long getId(){
         return id;
     }
 
     public void setId(Long id){
         this.id = id;
     }
-    public String getFio(){
-        return fio;
+    public String getName(){
+        return name;
     }
 
-    public void setFio(String fio){
-        this.fio = fio;
+    public void setName(String name){
+        this.name = name;
     }
-    public String getGroup(){
-        return group;
-    }
-
-    public void setGroup(String group){
-        this.group = group;
-    }
-    public String getPhonenumber(){
-        return phonenumber;
+    public String getSurname(){
+        return surname;
     }
 
-    public void setPhonenumber(String phonenumber){
-        this.phonenumber = phonenumber;
+    public void setSurname(String surname){
+        this.surname = surname;
     }
 }
