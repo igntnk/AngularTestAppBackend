@@ -20,7 +20,7 @@ public class HomeController{
     @GetMapping("users")
     public List<ShortUser> getAllUsers(){
         return authUserRepo.findAll().stream().filter(el->el.getRoles().stream().anyMatch(role->
-                role.getRole().equals(BaseRole.SUPER_USER))).
+                role.getRole().equals(BaseRole.STUDENT))).
                 map(el->new ShortUser(el.getId(),el.getUsername())).collect(Collectors.toList());
     }
 }

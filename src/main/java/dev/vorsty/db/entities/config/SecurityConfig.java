@@ -17,6 +17,8 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 
 import javax.sql.DataSource;
 
+import static org.springframework.security.config.Customizer.withDefaults;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig{
@@ -24,18 +26,17 @@ public class SecurityConfig{
     private DataSource dataSource;
 
     @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
     public void configAuthentication(AuthenticationManagerBuilder auth)throws Exception{
         auth.jdbcAuthentication().dataSource(dataSource)
-                .passwordEncoder(passwordEncoder())
+                .passwordEncoder(passwordEncoder)
                 .usersByUsernameQuery(
                         "select username, password, enabled "
                                 + "from users "
                                 + "where username=?")
                 .authoritiesByUsernameQuery("select username, role from user_roles where username=?");
-    }
-    @Bean
-    public PasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder();
     }
     @Bean
     public SecurityFilterChain filterChain(final HttpSecurity http) throws Exception{
@@ -50,8 +51,11 @@ public class SecurityConfig{
                     requestMatchers(HttpMethod.GET,"/api/home/**").permitAll().
                     requestMatchers(HttpMethod.GET,"/api/admin/**").hasAnyAuthority(BaseRole.SUPER_USER.getRole()).
                     requestMatchers(HttpMethod.POST,"/api/admin/**").hasAnyAuthority(BaseRole.SUPER_USER.getRole()).
-                anyRequest().authenticated()).rememberMe(Customizer.withDefaults());
+                    requestMatchers(HttpMethod.GET,"/api/user").permitAll().
+                    requestMatchers(HttpMethod.POST,"/api/logout").permitAll().
+                anyRequest().authenticated()).httpBasic(withDefaults());
 
         return http.build();
     }
 }
+

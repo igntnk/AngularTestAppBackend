@@ -20,7 +20,7 @@ import java.util.Set;
 public class AuthUserEntity extends BaseEntity {
     static BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     public AuthUserEntity(boolean enabled, String username, String password, Set<RoleUserEntity> roles){
-        this.password = passwordEncoder;
+        this.password = passwordEncoder.encode(password);
         this.enabled = enabled;
         this.username = username;
         this.roles = roles;
@@ -28,7 +28,7 @@ public class AuthUserEntity extends BaseEntity {
 
     private String username;
     private boolean enabled;
-    private BCryptPasswordEncoder password;
+    private String password;
     @OneToMany(cascade = {CascadeType.ALL},orphanRemoval = true)
     @LazyCollection(LazyCollectionOption.FALSE)
     @JoinColumn(name = "user_id", updatable = true)
