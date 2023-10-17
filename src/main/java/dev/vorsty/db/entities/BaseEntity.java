@@ -14,4 +14,6 @@ public class BaseEntity {
     @Column(name="id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    protected String name;
+    protected String surname;
 }

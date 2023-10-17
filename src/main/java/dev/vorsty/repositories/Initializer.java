@@ -15,17 +15,17 @@ public class Initializer {
     private AuthUserRepo authUserRepo;
 
     public void initial() {
-        AuthUserEntity admin = new AuthUserEntity(true,"admin","1234",
-                Collections.singleton(new RoleUserEntity("admin", BaseRole.SUPER_USER)));
+        AuthUserEntity admin = new AuthUserEntity(true,"admin","1234","Ilya","Ignatenko",
+                Collections.singleton(new RoleUserEntity("admin",BaseRole.SUPER_USER)));
 
         authUserRepo.save(admin);
 
-        AuthUserEntity user1 = new AuthUserEntity(true,"user1","123456",
+        AuthUserEntity user1 = new AuthUserEntity(true,"user1","123456","Danil","Svinoukhov",
                 Collections.singleton(new RoleUserEntity("user1", BaseRole.STUDENT)));
 
         authUserRepo.save(user1);
 
-        AuthUserEntity user2 = new AuthUserEntity(true,"user2","123456",
+        AuthUserEntity user2 = new AuthUserEntity(true,"user2","123456","Daniil","Kabub",
                 Collections.singleton(new RoleUserEntity("user2", BaseRole.STUDENT)));
 
         authUserRepo.save(user2);

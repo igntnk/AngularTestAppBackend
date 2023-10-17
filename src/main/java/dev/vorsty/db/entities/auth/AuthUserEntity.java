@@ -19,11 +19,13 @@ import java.util.Set;
 @NoArgsConstructor
 public class AuthUserEntity extends BaseEntity {
     static BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-    public AuthUserEntity(boolean enabled, String username, String password, Set<RoleUserEntity> roles){
+    public AuthUserEntity(boolean enabled, String username, String password, String name,String surname, Set<RoleUserEntity> roles){
         this.password = passwordEncoder.encode(password);
         this.enabled = enabled;
         this.username = username;
         this.roles = roles;
+        this.name = name;
+        this.surname = surname;
     }
 
     private String username;
