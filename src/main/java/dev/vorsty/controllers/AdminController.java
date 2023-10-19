@@ -18,7 +18,7 @@ public class AdminController {
     @Autowired
     private AuthUserRepo authUserRepo;
 
-    @GetMapping("users")
+    @GetMapping(value = "users")
     public List<ShortUser> getAllUsers(){
         //return authUserRepo.findAll();
         return authUserRepo.findAll().stream().
@@ -28,6 +28,34 @@ public class AdminController {
     @PostMapping(value = "users", produces = APPLICATION_JSON_VALUE)
     public AuthUserEntity createStudent(@RequestBody AuthUserEntity user){
         return authUserRepo.save(user);
+    }
+
+    @PutMapping(value = "users", produces = APPLICATION_JSON_VALUE)
+    public AuthUserEntity editStudent(@RequestBody AuthUserEntity updatedUser){
+        return editUser(updatedUser);
+    }
+
+    @DeleteMapping(value = "users", produces = APPLICATION_JSON_VALUE)
+    public Long deleteStudent(@PathVariable("id")Long id){
+        return deleteUser(id);
+    }
+
+    private AuthUserEntity editUser(AuthUserEntity user){
+        if(user.getId() == 0){
+            throw new RuntimeException("id of editing user cannot be null");
+        }
+        AuthUserEntity changed = authUserRepo.findAll().stream().
+                filter(el -> el.getId().equals(user.getId())).
+                findFirst().orElseThrow(()->new RuntimeException("user with id: " + user.getId() + "not found"));
+        changed = user;
+        authUserRepo.save(changed);
+
+        return changed;
+    }
+
+    private Long deleteUser(Long id){
+        authUserRepo.deleteById(id);
+        return id;
     }
 
 }
