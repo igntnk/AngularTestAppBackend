@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import java.util.Collection;
 import java.util.Collections;
 
 @Component
@@ -35,5 +34,27 @@ public class Initializer implements CommandLineRunner {
         );
 
         authUserRepo.save(user2);
+
+        AuthUserEntity user3 = new AuthUserEntity(true, "user3", "123456","Daniil","Kabirov",
+                Collections.singleton(new RoleUserEntity("user2", BaseRole.STUDENT))
+        );
+
+        authUserRepo.save(user3);
+
+        authUserRepo.save(new AuthUserEntity(true, "user4", "123456","Daniil","Kabirov",
+                Collections.singleton(new RoleUserEntity("user2", BaseRole.STUDENT))
+        ));
+        authUserRepo.save(new AuthUserEntity(true, "user5", "123456","Daniil","Kabirov",
+                Collections.singleton(new RoleUserEntity("user2", BaseRole.STUDENT))
+        ));
+        authUserRepo.save(new AuthUserEntity(true, "user6", "123456","Daniil","Kabirov",
+                Collections.singleton(new RoleUserEntity("user2", BaseRole.STUDENT))
+        ));
+        authUserRepo.save(new AuthUserEntity(true, "user7", "123456","Daniil","Kabirov",
+                Collections.singleton(new RoleUserEntity("user2", BaseRole.STUDENT))
+        ));
+        authUserRepo.save(new AuthUserEntity(true, "user8", "123456","Daniil","Kabirov",
+                Collections.singleton(new RoleUserEntity("user2", BaseRole.STUDENT))
+        ));
     }
 }

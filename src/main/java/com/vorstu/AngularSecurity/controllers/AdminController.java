@@ -2,7 +2,6 @@ package com.vorstu.AngularSecurity.controllers;
 
 import com.vorstu.AngularSecurity.db.dto.ShortUser;
 import com.vorstu.AngularSecurity.db.entities.auth.AuthUserEntity;
-import com.vorstu.AngularSecurity.db.entities.auth.BaseRole;
 import com.vorstu.AngularSecurity.db.repositories.AuthUserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -18,9 +17,12 @@ public class AdminController {
     @Autowired
     private AuthUserRepo authUserRepo;
 
-    @GetMapping("users")
-    public Set<ShortUser> getAllUsers() {
-        return authUserRepo.findAll().stream()
+    @GetMapping("users/{pageIndex}/{pageSize}")
+    public Set<ShortUser> getAllUsers(@PathVariable("pageIndex")Long pageIndex,
+                                      @PathVariable("pageSize")Long pageSize) {
+        return authUserRepo.findAll().stream().filter(
+                el -> (el.getId() > (pageIndex+1)*pageSize-pageSize) &&
+                        el.getId() <= (pageIndex+1)*pageSize)
                 .map(el -> new ShortUser(el.getId(), el.getName(),el.getSurname()))
                 .collect(Collectors.toSet());
     }
