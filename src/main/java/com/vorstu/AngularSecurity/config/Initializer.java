@@ -6,9 +6,13 @@ import com.vorstu.AngularSecurity.db.entities.auth.RoleUserEntity;
 import com.vorstu.AngularSecurity.db.repositories.AuthUserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class Initializer implements CommandLineRunner {
@@ -56,5 +60,6 @@ public class Initializer implements CommandLineRunner {
         authUserRepo.save(new AuthUserEntity(true, "user8", "123456","Daniil","Kabirov",
                 Collections.singleton(new RoleUserEntity("user2", BaseRole.STUDENT))
         ));
+
     }
 }

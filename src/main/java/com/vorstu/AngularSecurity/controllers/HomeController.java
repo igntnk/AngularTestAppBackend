@@ -17,13 +17,13 @@ public class HomeController {
     @Autowired
     private AuthUserRepo authUserRepo;
 
-    @GetMapping("users")
-    public Set<ShortUser> getAllUsers() {
-        return authUserRepo.findAll().stream()
-                .filter(el -> el.getRoles().stream().anyMatch(role ->
-                        !role.getRole().equals(BaseRole.SUPER_USER)))
-                .map(el -> new ShortUser(el.getId(), el.getName(),el.getSurname()))
-                .collect(Collectors.toSet());
-    }
+//    @GetMapping("users")
+//    public Set<ShortUser> getAllUsers() {
+//        return authUserRepo.findAll().stream()
+//                .filter(el -> el.getRoles().stream().anyMatch(role ->
+//                        !role.getRole().equals(BaseRole.SUPER_USER)))
+//                .map(el -> new ShortUser(el.getId(), el.getName(),el.getSurname()))
+//                .collect(Collectors.toSet());
+//    }
 
 }
