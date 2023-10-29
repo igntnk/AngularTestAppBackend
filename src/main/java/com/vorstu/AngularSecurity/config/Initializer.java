@@ -27,39 +27,11 @@ public class Initializer implements CommandLineRunner {
 
         authUserRepo.save(admin);
 
-        AuthUserEntity user1 = new AuthUserEntity(true, "user1", "12345","Daniil","Svinoukhov",
-                Collections.singleton(new RoleUserEntity("user1", BaseRole.STUDENT))
-        );
-
-        authUserRepo.save(user1);
-
-        AuthUserEntity user2 = new AuthUserEntity(true, "user2", "123456","Daniil","Kabirov",
-                Collections.singleton(new RoleUserEntity("user2", BaseRole.STUDENT))
-        );
-
-        authUserRepo.save(user2);
-
-        AuthUserEntity user3 = new AuthUserEntity(true, "user3", "123456","Daniil","Kabirov",
-                Collections.singleton(new RoleUserEntity("user2", BaseRole.STUDENT))
-        );
-
-        authUserRepo.save(user3);
-
-        authUserRepo.save(new AuthUserEntity(true, "user4", "123456","Daniil","Kabirov",
-                Collections.singleton(new RoleUserEntity("user2", BaseRole.STUDENT))
-        ));
-        authUserRepo.save(new AuthUserEntity(true, "user5", "123456","Daniil","Kabirov",
-                Collections.singleton(new RoleUserEntity("user2", BaseRole.STUDENT))
-        ));
-        authUserRepo.save(new AuthUserEntity(true, "user6", "123456","Daniil","Kabirov",
-                Collections.singleton(new RoleUserEntity("user2", BaseRole.STUDENT))
-        ));
-        authUserRepo.save(new AuthUserEntity(true, "user7", "123456","Daniil","Kabirov",
-                Collections.singleton(new RoleUserEntity("user2", BaseRole.STUDENT))
-        ));
-        authUserRepo.save(new AuthUserEntity(true, "user8", "123456","Daniil","Kabirov",
-                Collections.singleton(new RoleUserEntity("user2", BaseRole.STUDENT))
-        ));
+        for(int c =0;c< 120; c++){
+            authUserRepo.save(new AuthUserEntity(true, ("user" + c), "123456",("Daniil"+c),"Kabirov",
+                    Collections.singleton(new RoleUserEntity(("user" + c), BaseRole.STUDENT))
+            ));
+        }
 
     }
 }
