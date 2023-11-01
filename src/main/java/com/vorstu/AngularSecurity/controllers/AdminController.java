@@ -1,21 +1,15 @@
 package com.vorstu.AngularSecurity.controllers;
 
-import com.vorstu.AngularSecurity.db.dto.ShortUser;
 import com.vorstu.AngularSecurity.db.entities.auth.AuthUserEntity;
 import com.vorstu.AngularSecurity.db.repositories.AuthUserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.*;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.Comparator;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-
-import static org.springframework.data.domain.Sort.DEFAULT_DIRECTION;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("api/admin")
@@ -26,31 +20,34 @@ public class AdminController {
 
     @GetMapping("users/{pageIndex}/{pageSize}")
     public Page<AuthUserEntity> getAllUsers(@PathVariable("pageIndex")int pageIndex,
-                                       @PathVariable("pageSize")int pageSize) {
-
+                                            @PathVariable("pageSize")int pageSize) {
         return authUserRepo.findAll(PageRequest.of(pageIndex,pageSize, (Sort) Sort.by("id")));
+
     }
 
-    @GetMapping("users")
-    public Long getAllUsers() {
-        return authUserRepo.count();
+    @GetMapping("users/filter/{pageIndex}/{pageSize}/{filterData}")
+    public Page<AuthUserEntity> getFilteredData(@PathVariable("pageIndex")int pageIndex,
+                                                @PathVariable("pageSize")int pageSize,
+                                                @PathVariable("filterData")String data){
+        Page<AuthUserEntity> test  = authUserRepo.findWithFilter(PageRequest.of(pageIndex,pageSize,Sort.by("user_id")), '%'+data+'%');
+        return authUserRepo.findWithFilter(PageRequest.of(pageIndex,pageSize,Sort.by("user_id")), '%'+data+'%');
     }
 
-    @PostMapping(value="users", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public AuthUserEntity createStudent(@RequestBody AuthUserEntity user){
-        user.setEnabled(true);
-        return authUserRepo.save(user);
-    }
+//    @PostMapping(value="users", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+//    public AuthUserEntity createStudent(@RequestBody AuthUserEntity user){
+//        user.setEnabled(true);
+//        return authUserRepo.save(user);
+//    }
 
 //    @PutMapping(value = "users", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 //    public ResponseEntity<AuthUserEntity> editStudent(@RequestBody AuthUserEntity updatedUser){
 //        return editUser(updatedUser);
 //    }
 
-    @DeleteMapping(value = "users/{id}")
-    public Long deleteStudent(@PathVariable("id")Long id){
-        return deleteUser(id);
-    }
+//    @DeleteMapping(value = "users/{id}")
+//    public Long deleteStudent(@PathVariable("id")Long id){
+//        return deleteUser(id);
+//    }
 
 //    private ResponseEntity<AuthUserEntity> editUser(AuthUserEntity user){
 //        if(user.getId() == 0){
@@ -66,8 +63,8 @@ public class AdminController {
 //        return ResponseEntity.ok(changed);
 //    }
 
-    private Long deleteUser(Long id){
-        authUserRepo.deleteById(id);
-        return id;
-    }
+//    private Long deleteUser(Long id){
+//        authUserRepo.deleteById(id);
+//        return id;
+//    }
 }

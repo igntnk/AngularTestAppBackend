@@ -1,10 +1,9 @@
 package com.vorstu.AngularSecurity.db.entities;
 
+import javax.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import javax.persistence.*;
 
 @MappedSuperclass
 @Getter
@@ -12,7 +11,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class BaseEntity {
     @Id
-    @Column(name="id")
+    @Column(name="user_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 }
