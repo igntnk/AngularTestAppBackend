@@ -27,8 +27,20 @@ public class Initializer implements CommandLineRunner {
 
         authUserRepo.save(admin);
 
-        for(int c =0;c< 30; c++){
+        for(int c =0;c< 10; c++){
             authUserRepo.save(new AuthUserEntity(true, ("user" + c), "123456",("Daniil"+c),"Kabirov",
+                    Collections.singleton(new RoleUserEntity(("user" + c), BaseRole.STUDENT))
+            ));
+        }
+
+        for(int c =0;c< 10; c++){
+            authUserRepo.save(new AuthUserEntity(true, ("user" + c), "123456",("Andrey"+c),"Baranov",
+                    Collections.singleton(new RoleUserEntity(("user" + c), BaseRole.STUDENT))
+            ));
+        }
+
+        for(int c =0;c< 10; c++){
+            authUserRepo.save(new AuthUserEntity(true, ("user" + c), "123456",("Tomas"+c),"Shelby",
                     Collections.singleton(new RoleUserEntity(("user" + c), BaseRole.STUDENT))
             ));
         }

@@ -6,10 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/admin")
@@ -18,17 +15,11 @@ public class AdminController {
     @Autowired
     private AuthUserRepo authUserRepo;
 
-    @GetMapping("users/{pageIndex}/{pageSize}")
-    public Page<AuthUserEntity> getAllUsers(@PathVariable("pageIndex")int pageIndex,
-                                            @PathVariable("pageSize")int pageSize) {
-        return authUserRepo.findAll(PageRequest.of(pageIndex,pageSize, (Sort) Sort.by("id")));
-
-    }
-
-    @GetMapping("users/filter/{pageIndex}/{pageSize}/{filterData}")
+    @GetMapping("users/{pageIndex}/{pageSize}/{filterData}")
     public Page<AuthUserEntity> getFilteredData(@PathVariable("pageIndex")int pageIndex,
                                                 @PathVariable("pageSize")int pageSize,
                                                 @PathVariable("filterData")String data){
+        if(data.equals("$empty")){data = "";}
         Page<AuthUserEntity> test  = authUserRepo.findWithFilter(PageRequest.of(pageIndex,pageSize,Sort.by("user_id")), '%'+data+'%');
         return authUserRepo.findWithFilter(PageRequest.of(pageIndex,pageSize,Sort.by("user_id")), '%'+data+'%');
     }
@@ -44,10 +35,10 @@ public class AdminController {
 //        return editUser(updatedUser);
 //    }
 
-//    @DeleteMapping(value = "users/{id}")
-//    public Long deleteStudent(@PathVariable("id")Long id){
-//        return deleteUser(id);
-//    }
+    @DeleteMapping(value = "users/{id}")
+    public int deleteStudent(@PathVariable("id")Long id){
+        return authUserRepo.deleteUser(id);
+    }
 
 //    private ResponseEntity<AuthUserEntity> editUser(AuthUserEntity user){
 //        if(user.getId() == 0){
