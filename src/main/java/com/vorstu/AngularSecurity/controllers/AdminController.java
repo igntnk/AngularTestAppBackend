@@ -15,13 +15,21 @@ public class AdminController {
     @Autowired
     private AuthUserRepo authUserRepo;
 
-    @GetMapping("users/{pageIndex}/{pageSize}/{filterData}")
+    @GetMapping("users/{pageIndex}/{pageSize}")
     public Page<AuthUserEntity> getFilteredData(@PathVariable("pageIndex")int pageIndex,
                                                 @PathVariable("pageSize")int pageSize,
-                                                @PathVariable("filterData")String data){
-        if(data.equals("$empty")){data = "";}
-        Page<AuthUserEntity> test  = authUserRepo.findWithFilter(PageRequest.of(pageIndex,pageSize,Sort.by("user_id")), '%'+data+'%');
-        return authUserRepo.findWithFilter(PageRequest.of(pageIndex,pageSize,Sort.by("user_id")), '%'+data+'%');
+                                                @RequestParam("filterData") String data,
+                                                @RequestParam("sortColumn") String sortColumn,
+                                                @RequestParam("sortDirection") String sortDirection){
+        if(sortDirection.equals("asc")){
+            return authUserRepo.findWithFilter(PageRequest.of(pageIndex,pageSize,Sort.by(sortColumn).ascending()), '%'+data+'%');
+        }
+        else if(sortDirection.equals("desc")){
+            return authUserRepo.findWithFilter(PageRequest.of(pageIndex,pageSize,Sort.by(sortColumn).descending()), '%'+data+'%');
+        }
+        else{
+            return authUserRepo.findWithFilter(PageRequest.of(pageIndex,pageSize,Sort.by("user_id")), '%'+data+'%');
+        }
     }
 
 //    @PostMapping(value="users", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)

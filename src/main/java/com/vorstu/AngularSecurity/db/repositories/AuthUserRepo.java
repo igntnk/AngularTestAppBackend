@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface AuthUserRepo  extends PagingAndSortingRepository<AuthUserEntity, Long> {
     @Query(value = "SELECT user_id, enabled, name, password, surname, username FROM users u" +
-            " WHERE u.name LIKE :data OR u.surname LIKE :data AND u.enabled LIKE true",
+            " WHERE u.name LIKE :data OR u.surname LIKE :data",
             nativeQuery = true)
     Page<AuthUserEntity> findWithFilter(Pageable pageable, @Param("data")String data);
     @Modifying
