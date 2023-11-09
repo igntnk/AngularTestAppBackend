@@ -21,15 +21,8 @@ public class AdminController {
                                                 @RequestParam("filterData") String data,
                                                 @RequestParam("sortColumn") String sortColumn,
                                                 @RequestParam("sortDirection") String sortDirection){
-        if(sortDirection.equals("asc")){
-            return authUserRepo.findWithFilter(PageRequest.of(pageIndex,pageSize,Sort.by(sortColumn).ascending()), '%'+data+'%');
-        }
-        else if(sortDirection.equals("desc")){
-            return authUserRepo.findWithFilter(PageRequest.of(pageIndex,pageSize,Sort.by(sortColumn).descending()), '%'+data+'%');
-        }
-        else{
-            return authUserRepo.findWithFilter(PageRequest.of(pageIndex,pageSize,Sort.by("user_id")), '%'+data+'%');
-        }
+
+        return authUserRepo.findWithFilter(PageRequest.of(pageIndex,pageSize,Sort.by(Sort.Direction.valueOf(sortDirection.toUpperCase()),sortColumn)), '%'+data+'%');
     }
 
 //    @PostMapping(value="users", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
